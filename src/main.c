@@ -16,6 +16,7 @@
 #define ANIM_MOVE 1
 
 #define SFX_LASER 64
+#define SFX_EXPLOSION 65
 
 typedef struct {
   int x;
@@ -217,6 +218,7 @@ void handleCollisions() {
             if (collideEntities(b, e)) {
               killEntity(e);
               killEntity(b);
+              XGM_startPlayPCM(SFX_EXPLOSION, 1, SOUND_PCM_CH3);
 
               enemiesLeft--;
               bulletsOnScreen--;
@@ -236,6 +238,7 @@ void handleCollisions() {
       } else {
         if (collideEntities(b, &player)) {
           killEntity(&player);
+          XGM_startPlayPCM(SFX_EXPLOSION, 1, SOUND_PCM_CH3);
         }
       }
     }
@@ -272,6 +275,7 @@ int main() {
   JOY_setEventHandler(&myJoyHandler);
   // Initialize the sound to the sound driver
   XGM_setPCM(SFX_LASER, sfx_laser, sizeof(sfx_laser));
+  XGM_setPCM(SFX_EXPLOSION, sfx_explosion, sizeof(sfx_explosion));
   SPR_init();
   SYS_disableInts();
 
